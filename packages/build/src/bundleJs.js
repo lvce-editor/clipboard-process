@@ -24,7 +24,7 @@ const options = {
     },
     inlineDynamicImports: true,
   },
-  external: [ 'electron', 'execa', 'tmp-promise', 'open', 'tail', 'ws', 'trash'],
+  external: ['electron', 'execa', 'tmp-promise', 'open', 'tail', 'ws', 'trash'],
   plugins: [
     babel({
       babelHelpers: 'bundled',

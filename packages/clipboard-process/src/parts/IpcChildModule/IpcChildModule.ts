@@ -1,11 +1,6 @@
-import type {
-  Rpc
-} from '@lvce-editor/rpc';
-import {
-  NodeForkedProcessRpcClient,
-  NodeWorkerRpcClient
-} from '@lvce-editor/rpc';
-import * as IpcChildType from '../IpcChildType/IpcChildType.ts';
+import type { Rpc } from '@lvce-editor/rpc'
+import { NodeForkedProcessRpcClient, NodeWorkerRpcClient } from '@lvce-editor/rpc'
+import * as IpcChildType from '../IpcChildType/IpcChildType.ts'
 
 interface RpcFactory {
   (options: any): Promise<Rpc>
