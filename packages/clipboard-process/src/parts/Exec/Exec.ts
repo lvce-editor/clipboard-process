@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
 import { spawn } from 'node:child_process'
 import type { ExecResult } from '../ExecResult/ExecResult.ts'
 import { isAllowedCommand } from '../IsAllowedCommand/IsAllowedCommand.ts'
