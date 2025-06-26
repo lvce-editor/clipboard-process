@@ -1,9 +1,33 @@
-import { execa } from 'execa'
+import { spawn } from 'node:child_process'
 import { isAllowedCommand } from '../IsAllowedCommand/IsAllowedCommand.ts'
 
-export const exec = async (command: string, args: readonly any[]): Promise<void> => {
+interface ExecResult {
+  readonly stdout: string
+  readonly stderr: string
+  readonly exitCode: number | undefined
+}
+
+export const exec = async (command: string, args: readonly any[], stdin: string): Promise<ExecResult> => {
   if (!isAllowedCommand(command)) {
     throw new Error(`command is not allowed: ${command}`)
   }
-  await execa(command, args, {})
+  const child = spawn(command, args)
+  const { resolve, promise } = Promise.withResolvers()
+  child.on('exit', resolve)
+
+  if (stdin) {
+    child.stdin.write(stdin, () => {
+      child.stdin.end()
+    })
+  }
+  let stdout = ''
+  child.stdout.on('data', (data) => {
+    stdout += data
+  })
+  await promise
+  return {
+    stderr: '',
+    stdout,
+    exitCode: 0,
+  }
 }
