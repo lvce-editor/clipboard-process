@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
-import type { ChildProcessWithoutNullStreams } from 'node:child_process'
+import type { ChildProcess } from 'node:child_process'
 
-export const waitForProcessToExit = async (child: ChildProcessWithoutNullStreams): Promise<void> => {
+export const waitForProcessToExit = async (child: ChildProcess): Promise<void> => {
   const { resolve, promise } = Promise.withResolvers<void>()
   const cleanup = (): void => {
     child.off('exit', handleExit)
