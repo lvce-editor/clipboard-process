@@ -54,6 +54,9 @@ await mkdir(dist, { recursive: true })
 
 await bundleJs()
 
+await mkdir(join(root, 'packages', 'clipboard-process', 'dist'), { recursive: true })
+await cp(join(root, '.tmp', 'dist', 'dist', 'index.js'), join(root, 'packages', 'clipboard-process', 'dist', 'index.js'))
+
 const version = await getVersion()
 
 const packageJson = await readJson(join(root, 'packages', 'clipboard-process', 'package.json'))
