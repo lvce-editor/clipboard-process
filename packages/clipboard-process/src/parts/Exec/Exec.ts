@@ -1,20 +1,15 @@
 import { spawn } from 'node:child_process'
+import type { ExecResult } from '../ExecResult/ExecResult.ts'
 import { isAllowedCommand } from '../IsAllowedCommand/IsAllowedCommand.ts'
-
-interface ExecResult {
-  readonly stdout: string
-  readonly stderr: string
-  readonly exitCode: number | undefined
-}
+import { NotAllowedError } from '../NotAllowedError/NotAllowedError.ts'
 
 export const exec = async (command: string, args: readonly any[], stdin: string): Promise<ExecResult> => {
   if (!isAllowedCommand(command)) {
-    throw new Error(`command is not allowed: ${command}`)
+    throw new NotAllowedError(command)
   }
   const child = spawn(command, args)
   const { resolve, promise } = Promise.withResolvers()
   child.on('exit', resolve)
-
   if (stdin) {
     child.stdin.write(stdin, () => {
       child.stdin.end()
