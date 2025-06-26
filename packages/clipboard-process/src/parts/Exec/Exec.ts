@@ -2,27 +2,22 @@ import { spawn } from 'node:child_process'
 import type { ExecResult } from '../ExecResult/ExecResult.ts'
 import { isAllowedCommand } from '../IsAllowedCommand/IsAllowedCommand.ts'
 import { NotAllowedError } from '../NotAllowedError/NotAllowedError.ts'
+import { waitForProcessToExit } from '../WaitForProcessToExit/WaitForProcessToExit.ts'
+import { writeToProcessStdin } from '../WriteToProcessStdin/WriteToProcessStdin.ts'
 
 export const exec = async (command: string, args: readonly any[], stdin: string): Promise<ExecResult> => {
   if (!isAllowedCommand(command)) {
     throw new NotAllowedError(command)
   }
   const child = spawn(command, args)
-  const { resolve, promise } = Promise.withResolvers()
-  child.on('exit', resolve)
+  const exitPromise = waitForProcessToExit(child)
   if (stdin) {
-    child.stdin.write(stdin, () => {
-      child.stdin.end()
-    })
+    await writeToProcessStdin(child.stdin, stdin)
   }
-  let stdout = ''
-  child.stdout.on('data', (data) => {
-    stdout += data
-  })
-  await promise
+  await exitPromise
   return {
     stderr: '',
-    stdout,
+    stdout: '',
     exitCode: 0,
   }
 }
