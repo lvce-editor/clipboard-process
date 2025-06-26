@@ -4,7 +4,7 @@ import type { ExecResult } from '../ExecResult/ExecResult.ts'
 import { isAllowedCommand } from '../IsAllowedCommand/IsAllowedCommand.ts'
 import { NotAllowedError } from '../NotAllowedError/NotAllowedError.ts'
 import { waitForProcessToExit } from '../WaitForProcessToExit/WaitForProcessToExit.ts'
-import { writeToProcessStdin } from '../WriteToProcessStdin/WriteToProcessStdin.ts'
+import { closeStdin, writeToProcessStdin } from '../WriteToProcessStdin/WriteToProcessStdin.ts'
 
 export const exec = async (
   command: string,
@@ -21,6 +21,7 @@ export const exec = async (
   const exitPromise = waitForProcessToExit(child)
   if (stdin) {
     await writeToProcessStdin(child.stdin, stdin)
+    await closeStdin(child.stdin)
   }
   await exitPromise
   return {
