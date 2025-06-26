@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
 import type { ChildProcessWithoutNullStreams } from 'node:child_process'
 
 export const waitForProcessToExit = async (child: ChildProcessWithoutNullStreams): Promise<void> => {
