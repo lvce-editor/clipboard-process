@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
 import { spawn } from 'node:child_process'
 import type { ExecResult } from '../ExecResult/ExecResult.ts'
 import { isAllowedCommand } from '../IsAllowedCommand/IsAllowedCommand.ts'
@@ -25,8 +24,8 @@ export const exec = async (
   }
   await exitPromise
   return {
+    exitCode: 0,
     stderr: '',
     stdout: '',
-    exitCode: 0,
   }
 }
