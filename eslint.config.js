@@ -6,6 +6,7 @@ export default [
   {
     files: ['**/*.ts'],
     rules: {
+      '@typescript-eslint/prefer-readonly-parameter-types': 'off',
       'n/no-unsupported-features/es-syntax': 'off',
     },
   },
