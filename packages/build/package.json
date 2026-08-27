@@ -3,6 +3,9 @@
   "version": "0.0.0-dev",
   "main": "index.js",
   "type": "module",
+  "scripts": {
+    "build:watch": "esbuild --platform=node --format=esm --bundle --external:electron --external:execa --external:tmp-promise --external:open --external:tail --external:ws --external:trash --watch ../clipboard-process/src/clipBoardProcessMain.ts --outfile=../../.tmp/dist/dist/index.js"
+  },
   "keywords": [],
   "author": "",
   "license": "MIT",
